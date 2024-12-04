@@ -44,16 +44,16 @@ forward OnPlayerMenuFloatingResponse(playerid, extraid, bool:response, listitem)
 stock bool:IsPlayerViewingMenuFloating(playerid)
     return (g_PlayerMenuFloatingID[playerid] != -1);
 
-stock ShowMenuFloatingForPlayer(playerid, extraid, const header[], header_colour, const list_items[][], list_length = sizeof list_items)
+stock bool:ShowMenuFloatingForPlayer(playerid, extraid, const header[], header_colour, const list_items[][], list_length = sizeof list_items)
 {
     if (!IsPlayerConnected(playerid))
-        return 0;
+        return false;
 
     if (extraid < 0)
-        return 0;
+        return false;
 
     if (!list_length)
-        return 0;
+        return false;
 
     if (IsPlayerViewingMenuFloating(playerid))
         _destroy_menufloating(playerid, true);
@@ -92,17 +92,17 @@ stock ShowMenuFloatingForPlayer(playerid, extraid, const header[], header_colour
     }
 
     SelectTextDraw(playerid, 0x080808FF);
-    return 1;
+    return true;
 }
 
-stock HideMenuFloatingForPlayer(playerid)
+stock bool:HideMenuFloatingForPlayer(playerid)
 {
     if (_destroy_menufloating(playerid))
     {
         CancelSelectTextDraw(playerid);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 static stock _destroy_menufloating(playerid, bool:call = false)
