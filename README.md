@@ -13,7 +13,7 @@ OnPlayerMenuFloatingResponse(playerid, extraid, bool:response, listitem);
 ```c
 #define MENU_ID_WEAPONS (2)
 
-new const list[][] =
+static const list[][] =
 {
     "Tec-9",
     "Micro Uzi",
@@ -21,3 +21,4 @@ new const list[][] =
 };
 ShowMenuFloatingForPlayer(playerid, MENU_ID_WEAPONS, "Weapons", 0xDA2B2BFF, list);
 ```
+![screenshot](https://github.com/dotdue/menu-floating/blob/main/screenshot.png?raw=true)
