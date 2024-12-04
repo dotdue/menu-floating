@@ -34,7 +34,9 @@ CMD:teleportes(playerid)
 
 public OnPlayerMenuFloatingResponse(playerid, extraid, bool:response, listitem)
 {
-    SendClientMessage(playerid, 0xCDCDCDFF, "[DEBUG] extraid = %i, response = %s, listitem = %i", extraid, response ? "true" : "false", listitem);
+    new string[128];
+    format(string, sizeof string, "[DEBUG] extraid = %i, response = %s, listitem = %i", extraid, response ? "true" : "false", listitem);
+    SendClientMessage(playerid, 0xCDCDCDFF, string);
 
     switch (extraid)
     {
