@@ -7,7 +7,7 @@ HideMenuFloatingForPlayer(playerid);
 ```
 **Callbacks**
 ```c
-OnPlayerMenuFloatingResponse(playerid, extraid, bool:response, listitem);
+public OnPlayerMenuFloatingResponse(playerid, extraid, bool:response, listitem)
 ```
 
 [Examples](https://github.com/dotdue/menu-floating/blob/main/examples.pwn?raw=true)
