@@ -9,7 +9,9 @@ HideMenuFloatingForPlayer(playerid);
 ```c
 OnPlayerMenuFloatingResponse(playerid, extraid, bool:response, listitem);
 ```
-**Use**
+
+[Examples](https://github.com/dotdue/menu-floating/blob/main/examples.pwn?raw=true)
+
 ```c
 #define MENU_ID_WEAPONS (2)
 
