@@ -16,7 +16,7 @@ CMD:hospital(playerid)
         "Atendimento",
         "Ver histórico ~p~novo!"
     };
-    ShowMenuFloatingForPlayer(playerid, MENU_FLOATING_HOSPITAL, "Hospital", 0xAC2727FF, items);
+    ShowMenuFloatingForPlayer(playerid, MENU_FLOATING_HOSPITAL, "Hospital", 0xDA2B2BFF, items);
     return 1;
 }
 
