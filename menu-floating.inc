@@ -46,6 +46,12 @@ stock bool:IsPlayerViewingMenuFloating(playerid)
 
 stock ShowMenuFloatingForPlayer(playerid, extraid, const header[], header_colour, const list_items[][], list_length = sizeof list_items)
 {
+    if (!IsPlayerConnected(playerid))
+        return 0;
+
+    if (extraid < 0)
+        return 0;
+
     if (!list_length)
         return 0;
 
@@ -152,7 +158,7 @@ static stock _fix_text(const string[])
     return text;
 }
 
-stock _MenuFloating_OnPlayerConnect(playerid)
+static _MenuFloating_OnPlayerConnect(playerid)
 {
     g_PlayerMenuFloatingID[playerid] = -1;
     g_PlayerMenuFloatingLength[playerid] = 0;
@@ -179,9 +185,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
         if (clickedid == INVALID_TEXT_DRAW)
         {
             CallLocalFunction("OnPlayerMenuFloatingResponse", "iiii", playerid, g_PlayerMenuFloatingID[playerid], false, -1);
-
-            _destroy_menufloating(playerid);
-            CancelSelectTextDraw(playerid);
+            HideMenuFloatingForPlayer(playerid);
         }
     }
 
@@ -236,8 +240,8 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 public OnPlayerConnect(playerid)
 {
     _MenuFloating_OnPlayerConnect(playerid);
-    #if defined menuFloating_OnPlayerConnect
-        return menuFloating_OnPlayerConnect(playerid);
+    #if defined mf_OnPlayerConnect
+        return mf_OnPlayerConnect(playerid);
     #else
         return 1;
     #endif
@@ -248,9 +252,9 @@ public OnPlayerConnect(playerid)
     #define _ALS_OnPlayerConnect
 #endif
 
-#define OnPlayerConnect menuFloating_OnPlayerConnect
-#if defined menuFloating_OnPlayerConnect
-    forward menuFloating_OnPlayerConnect(playerid);
+#define OnPlayerConnect mf_OnPlayerConnect
+#if defined mf_OnPlayerConnect
+    forward mf_OnPlayerConnect(playerid);
 #endif
 
 #if defined FILTERSCRIPT
@@ -269,8 +273,8 @@ public OnPlayerConnect(playerid)
                 _MenuFloating_OnPlayerConnect(playerid);
         }
 
-        #if defined menuFloating_OnFilterScriptInit
-            return menuFloating_OnFilterScriptInit();
+        #if defined mf_OnFilterScriptInit
+            return mf_OnFilterScriptInit();
         #else
             return 1;
         #endif
@@ -281,9 +285,9 @@ public OnPlayerConnect(playerid)
         #define _ALS_OnFilterScriptInit
     #endif
 
-    #define OnFilterScriptInit menuFloating_OnFilterScriptInit
-    #if defined menuFloating_OnFilterScriptInit
-        forward menuFloating_OnFilterScriptInit();
+    #define OnFilterScriptInit mf_OnFilterScriptInit
+    #if defined mf_OnFilterScriptInit
+        forward mf_OnFilterScriptInit();
     #endif
 
     public OnFilterScriptExit()
@@ -305,8 +309,8 @@ public OnPlayerConnect(playerid)
             }
         }
 
-        #if defined menuFloating_OnFilterScriptExit
-            return menuFloating_OnFilterScriptExit();
+        #if defined mf_OnFilterScriptExit
+            return mf_OnFilterScriptExit();
         #else
             return 1;
         #endif
@@ -317,9 +321,9 @@ public OnPlayerConnect(playerid)
         #define _ALS_OnFilterScriptExit
     #endif
 
-    #define OnFilterScriptExit menuFloating_OnFilterScriptExit
-    #if defined menuFloating_OnFilterScriptExit
-        forward menuFloating_OnFilterScriptExit();
+    #define OnFilterScriptExit mf_OnFilterScriptExit
+    #if defined mf_OnFilterScriptExit
+        forward mf_OnFilterScriptExit();
     #endif
 #else
     public OnGameModeInit()
@@ -331,8 +335,8 @@ public OnPlayerConnect(playerid)
         TextDrawSetOutline(g_tdGlobalMenuFloating, 1);
         TextDrawBackgroundColour(g_tdGlobalMenuFloating, 0);
 
-        #if defined menuFloating_OnGameModeInit
-            return menuFloating_OnGameModeInit();
+        #if defined mf_OnGameModeInit
+            return mf_OnGameModeInit();
         #else
             return 1;
         #endif
@@ -343,8 +347,8 @@ public OnPlayerConnect(playerid)
         #define _ALS_OnGameModeInit
     #endif
 
-    #define OnGameModeInit menuFloating_OnGameModeInit
-    #if defined menuFloating_OnGameModeInit
-        forward menuFloating_OnGameModeInit();
+    #define OnGameModeInit mf_OnGameModeInit
+    #if defined mf_OnGameModeInit
+        forward mf_OnGameModeInit();
     #endif
 #endif
