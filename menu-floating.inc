@@ -56,10 +56,7 @@ stock ShowMenuFloatingForPlayer(playerid, extraid, const header[], header_colour
         return 0;
 
     if (IsPlayerViewingMenuFloating(playerid))
-    {
-        CallLocalFunction("OnPlayerMenuFloatingResponse", "iiii", playerid, g_PlayerMenuFloatingID[playerid], false, -1);
-        _destroy_menufloating(playerid);
-    }
+        _destroy_menufloating(playerid, true);
 
     TextDrawShowForPlayer(playerid, g_tdGlobalMenuFloating);
 
@@ -103,16 +100,15 @@ stock HideMenuFloatingForPlayer(playerid)
     if (_destroy_menufloating(playerid))
     {
         CancelSelectTextDraw(playerid);
+        return 1;
     }
-    return 1;
+    return 0;
 }
 
-static stock _destroy_menufloating(playerid)
+static stock _destroy_menufloating(playerid, bool:call = false)
 {
     if (!IsPlayerViewingMenuFloating(playerid))
         return 0;
-
-    g_PlayerMenuFloatingID[playerid] = -1;
 
     TextDrawHideForPlayer(playerid, g_tdGlobalMenuFloating);
 
@@ -125,6 +121,12 @@ static stock _destroy_menufloating(playerid)
         PlayerTextDrawDestroy(playerid, g_tdPlayerMenuFloatingListItem[playerid][j][1]);
     }
 
+    if (call)
+    {
+        CallLocalFunction("OnPlayerMenuFloatingResponse", "iiii", playerid, g_PlayerMenuFloatingID[playerid], false, -1);
+    }
+
+    g_PlayerMenuFloatingID[playerid] = -1;
     g_PlayerMenuFloatingLength[playerid] = 0;
     return 1;
 }
@@ -255,6 +257,30 @@ public OnPlayerConnect(playerid)
 #define OnPlayerConnect mf_OnPlayerConnect
 #if defined mf_OnPlayerConnect
     forward mf_OnPlayerConnect(playerid);
+#endif
+
+public OnPlayerDeath(playerid, killerid)
+{
+    if (_destroy_menufloating(playerid, true))
+    {
+        CancelSelectTextDraw(playerid);
+    }
+    
+    #if defined mf_OnPlayerDeath
+        return mf_OnPlayerDeath(playerid, killerid);
+    #else
+        return 1;
+    #endif
+}
+#if defined _ALS_OnPlayerDeath
+    #undef OnPlayerDeath
+#else
+    #define _ALS_OnPlayerDeath
+#endif
+
+#define OnPlayerDeath mf_OnPlayerDeath
+#if defined mf_OnPlayerDeath
+    forward mf_OnPlayerDeath(playerid, killerid);
 #endif
 
 #if defined FILTERSCRIPT
