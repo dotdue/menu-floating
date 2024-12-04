@@ -1,5 +1,5 @@
 # menu-floating
-Libary for [SA-MP](https://sa-mp.mp) and [OPEN-MP](https://open.mp)
+Library for [SA-MP](https://sa-mp.mp) and [OPEN-MP](https://open.mp)
 
 **Functions**
 ```c
